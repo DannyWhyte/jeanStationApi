@@ -100,7 +100,7 @@ SwaggerExpress.create(config1, function(err, swaggerExpress) {
     app.post(BASE_URL + '/loginUser', sessionHandler, require('./api/controllers/login').login);
     app.post(BASE_URL + '/test', IsAuthenticated, require('./api/controllers/hello_world').getTicketInfo);
 
-    var port = process.env.PORT || 8004;
+    var port = process.env.PORT || 8011;
     var server = app.listen(port);
     server.timeout = 3600000;
     module.exports = exports;
