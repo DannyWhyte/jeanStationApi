@@ -1,0 +1,30 @@
+{
+  "name": "jean_station_api",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Jean station back-end",
+  "keywords": [],
+  "author": "Danish Galiyara",
+  "license": "open source",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "express": "^4.12.3",
+    "express-session": "^1.15.6",
+    "helmet": "^3.9.0",
+    "jsonschema": "^1.2.2",
+    "moment": "^2.19.1",
+    "mysql2": "^1.5.1",
+    "q": "^1.5.1",
+    "swagger-express-mw": "^0.1.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}

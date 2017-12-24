@@ -57,3 +57,10 @@ typings/
 # dotenv environment variables file
 .env
 
+# ignore package-lock file
+package-lock.json
+
+# ignore db.json file
+/config/db.json
+
+
