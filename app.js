@@ -53,7 +53,7 @@ function sessionHandler(req, res, next) {
 }
 
 function IsAuthenticated(req, res, next) {
-    console.log("in IsAuthenticated", req.headers.sessionid);
+    // console.log("in IsAuthenticated", req.headers.sessionid);
 
     var sessionID = req.headers.sessionid;
 
@@ -99,11 +99,12 @@ SwaggerExpress.create(config1, function(err, swaggerExpress) {
 
     app.post(BASE_URL + '/loginUser', sessionHandler, require('./api/controllers/login').login);
     app.post(BASE_URL + '/test', IsAuthenticated, require('./api/controllers/hello_world').getTicketInfo);
+    app.post(BASE_URL + '/addProducts', IsAuthenticated, require('./api/controllers/addProducts').addProducts);
 
     var port = process.env.PORT || 8011;
     var server = app.listen(port);
     server.timeout = 3600000;
     module.exports = exports;
     exports.sessionStore = sessionStore;
-    console.log('try this:\ncurl http://localhost:8004/api/ping');
+    console.log('try this:\ncurl http://localhost:' + port + BASE_URL + '/ping');
 });

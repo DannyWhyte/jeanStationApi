@@ -45,5 +45,110 @@ var loginValidator = function(request) {
     return deferred.promise;
 }
 
+var addProductsValidator = function(request) {
+    var deferred = q.defer();
+    var schema1 = {
+        "id": "/addProducts",
+        "type": "object",
+        "properties": {
+            "data": {
+                "type": "array",
+                "minItems": 1,
+                "required": true,
+                "items": {
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                        "category": {
+                            "type": "string",
+                            "required": true,
+                            "minLength": 1,
+                        },
+                        "gender": {
+                            "type": "integer",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "price": {
+                            "type": "integer",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "discount": {
+                            "type": "integer",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "brand": {
+                            "type": "string",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "paroductName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "tax": {
+                            "type": "integer",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "size": {
+                            "type": "array",
+                            "minItems": 1,
+                            "required": true,
+                            "items": {
+                                "type": "string",
+                                "minLength": 1,
+                                "required": true
+                            }
+                        },
+                        "imagePath": {
+                            "type": "array",
+                            "minItems": 1,
+                            "required": true,
+                            "items": {
+                                "type": "string",
+                                "minLength": 1,
+                                "required": true
+                            }
+                        },
+                        "imagePosition": {
+                            "type": "array",
+                            "minItems": 1,
+                            "required": true,
+                            "items": {
+                                "type": "integer",
+                                "minLength": 1,
+                                "required": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    v.addSchema(schema1, '/login');
+    var error = _.pluck(v.validate(request, schema1).errors, 'stack');
+    var formated_error = [];
+    // console.log("ssssssssssssssssssssssssssssss", error)
+    _.each(error, function(err) {
+        // console.log('VALIDATE: ', err.replace('instance.', '').replace('].', '] ').replace('data.', ''));
+        var formatedErr = err.split('.')
+        formated_error.push(formatedErr[formatedErr.length - 1]);
+    });
+    if (formated_error.length > 0) {
+        deferred.reject({
+            "status": "fail",
+            "error": formated_error
+        });
+    } else {
+        deferred.resolve(request);
+    }
+    return deferred.promise;
+}
+
 
 module.exports.loginValidator = loginValidator;
+module.exports.addProductsValidator = addProductsValidator;

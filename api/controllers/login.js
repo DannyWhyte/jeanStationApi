@@ -21,6 +21,7 @@ var getUserFromDb = function(request) {
                         }
                         // console.log(tablesFromDb, userDetails)
                     let currentUser = {
+                        code: 1001,
                         userDetails: userDetails,
                         message: "Welcome : " + userDetails.firstName + ' ' + userDetails.lastName + '.'
                     }
@@ -35,7 +36,6 @@ var getUserFromDb = function(request) {
             }
         })
         .catch(function(err) {
-            console.log("error ---->", err)
             deferred.reject(err)
         })
     return deferred.promise;
@@ -48,13 +48,17 @@ var login = function(req, res) {
             return getUserFromDb(validationResponse)
         })
         .then(function(finalResponse) {
-            finalResponse.sessionID = req.sessionID
-            req.session.currentUser = finalResponse;
-            let toSend = { code: 200, message: finalResponse.message, userDetails: finalResponse.userDetails, sessionId: finalResponse.sessionID }
+            // console.log("-------------->", finalResponse)
+            let toSend = { code: finalResponse.code, message: finalResponse.message, userDetails: finalResponse.userDetails, sessionId: finalResponse.sessionID }
+            if (toSend.code == 1001) {
+                req.session.currentUser = finalResponse;
+                toSend.sessionID = req.sessionID
+            }
             res.status(200).send(toSend)
         })
         .catch(function(err) {
-            let toSend = { code: 1111, message: err }
+            console.log("error ---->", err)
+            let toSend = { code: 4001, message: err }
             res.status(500).send(toSend)
         })
 }
