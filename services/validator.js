@@ -60,7 +60,7 @@ var addProductsValidator = function(request) {
                     "required": true,
                     "properties": {
                         "category": {
-                            "type": "string",
+                            "type": "integer",
                             "required": true,
                             "minLength": 1,
                         },
