@@ -3,10 +3,10 @@
  * Input unique json array with previous id
  * Output insert and update script
  */
-var createInsertScript = function(uniqAray) {
+var createInsertScript = function(withUniqId) {
     let deferred = q.defer();
-
-    // deferred.resolve(uniqueRequest)
+    console.log("inside insert script", withUniqId)
+        // deferred.resolve(uniqueRequest)
     return deferred.promise;
 }
 
@@ -17,8 +17,49 @@ var createInsertScript = function(uniqAray) {
  */
 var getPreviousId = function(uniqAray) {
     let deferred = q.defer();
-
-    // deferred.resolve(uniqueRequest)
+    let query = `select id,brand,product_name,category,gender from product where (lower(brand),lower(product_name),category,gender) in (`
+    _.each(uniqAray, function(singleJson) {
+        // console.log("sssssssssssss", singleJson)
+        query = query + `(lower('${singleJson.brand}'),lower('${singleJson.productName}'),${singleJson.category},${singleJson.gender}),`
+    })
+    query = query.substr(0, query.length - 1) + `);`
+        // console.log("queryyyyyyyyyyyyy", query)
+    dbQuery(query)
+        .then(function(result) {
+            console.log(result)
+            if (!_.isEmpty(result)) {
+                return result;
+            } else {
+                return false;
+            }
+        })
+        .then(function(dbResponse) {
+            if (!dbResponse) {
+                deferred.resolve(uniqAray)
+                console.log("no need to add id")
+            } else {
+                let withIdArray = [];
+                _.each(dbResponse, function(singleJson) {
+                    console.log("aaaaaaaaaaaaaaaaaaaa", singleJson)
+                    let findJson = {
+                        brand: singleJson.brand.toLowerCase(),
+                        productName: singleJson.product_name.toLowerCase(),
+                        category: singleJson.category,
+                        gender: singleJson.gender
+                    }
+                    let found = _.findWhere(uniqAray, findJson)
+                    if (found) {
+                        // found
+                    }
+                    console.log("foundddddddddd", found)
+                })
+                console.log("need to add id")
+            }
+        })
+        .catch(function(err) {
+            console.log("errr ----->", err)
+            deferred.reject(err)
+        })
     return deferred.promise;
 }
 
@@ -30,9 +71,9 @@ var getPreviousId = function(uniqAray) {
 var getUniqueRequestBody = function(request) {
     let deferred = q.defer();
     // console.log("input req --->", request)
-    var uniqueRequestString = _.uniq(_.map(request, function(json) { return JSON.stringify(json); }));
+    let uniqueRequestString = _.uniq(_.map(request, function(json) { return JSON.stringify(json); }));
     // console.log("uniq but str --->", uniqueRequestString)
-    var uniqueRequest = _.map(uniqueRequestString, function(string) { return JSON.parse(string); })
+    let uniqueRequest = _.map(uniqueRequestString, function(string) { return JSON.parse(string); })
         // console.log("uniq req --->", uniqueRequest)
     deferred.resolve(uniqueRequest)
     return deferred.promise;

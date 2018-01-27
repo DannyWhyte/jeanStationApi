@@ -84,7 +84,7 @@ var addProductsValidator = function(request) {
                             "minLength": 1,
                             "required": true
                         },
-                        "paroductName": {
+                        "productName": {
                             "type": "string",
                             "minLength": 1,
                             "required": true
