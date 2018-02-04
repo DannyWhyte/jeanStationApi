@@ -105,6 +105,14 @@ SwaggerExpress.create(config1, function(err, swaggerExpress) {
     var port = process.env.PORT || 8011;
     var server = app.listen(port);
     server.timeout = 3600000;
+
+    // ======================== PROCESS.ON START ===================================
+    process.on('unhandledRejection', (reason, p) => {
+        console.log('Unhandled Rejection at:', p, 'reason:', reason);
+        // application specific logging, throwing an error, or other logic here
+    });
+    // ======================== PROCESS.ON END =====================================
+
     module.exports = exports;
     exports.sessionStore = sessionStore;
     console.log('try this:\ncurl http://localhost:' + port + BASE_URL + '/ping');
