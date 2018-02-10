@@ -99,8 +99,8 @@ SwaggerExpress.create(config1, function(err, swaggerExpress) {
 
     app.post(BASE_URL + '/loginUser', sessionHandler, require('./api/controllers/login').login);
     app.post(BASE_URL + '/test', IsAuthenticated, require('./api/controllers/hello_world').getTicketInfo);
-    app.post(BASE_URL + '/addProducts', require('./api/controllers/addProducts').addProducts);
-    // app.post(BASE_URL + '/addProducts', IsAuthenticated, require('./api/controllers/addProducts').addProducts);
+    app.post(BASE_URL + '/addProducts', IsAuthenticated, require('./api/controllers/addProducts').addProducts);
+    app.get(BASE_URL + '/productList', require('./api/controllers/productList').productList);
 
     var port = process.env.PORT || 8011;
     var server = app.listen(port);
