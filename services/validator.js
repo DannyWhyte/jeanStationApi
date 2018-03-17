@@ -217,8 +217,60 @@ var productInfoValidator = function(request) {
     return deferred.promise;
 }
 
+let addToCartValidator = class validator {
+    constructor(request) {
+        let deferred = q.defer();
+        let schema1 = {
+            "id": "/addToCart",
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                        "prodId": {
+                            "type": "integer",
+                            "required": true,
+                            "minLength": 1,
+                        },
+                        "quantity": {
+                            "type": "integer",
+                            "minLength": 1,
+                            "required": true
+                        },
+                        "size": {
+                            "type": "string",
+                            "minLength": 1,
+                            "required": true
+                        }
+                    }
+                }
+            }
+        };
+        v.addSchema(schema1, '/addToCart');
+        let error = _.pluck(v.validate(request, schema1).errors, 'stack');
+        let formated_error = [];
+        // console.log("ssssssssssssssssssssssssssssss", error)
+        _.each(error, function(err) {
+            // console.log('VALIDATE: ', err.replace('instance.', '').replace('].', '] ').replace('data.', ''));
+            let formatedErr = err.split('.')
+            formated_error.push(formatedErr[formatedErr.length - 1]);
+        });
+        if (formated_error.length > 0) {
+            deferred.reject({
+                "status": "fail",
+                "error": formated_error
+            });
+        } else {
+            deferred.resolve(request);
+        }
+        return deferred.promise;
+    }
+}
+
 
 module.exports.loginValidator = loginValidator;
 module.exports.addProductsValidator = addProductsValidator;
 module.exports.productListValidator = productListValidator;
 module.exports.productInfoValidator = productInfoValidator;
+module.exports.addToCartValidator = addToCartValidator;

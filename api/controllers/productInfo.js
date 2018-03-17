@@ -67,7 +67,7 @@ var getDataFromDb = function(prodId) {
         })
         .catch(function(err) {
             console.log("db error -------->", err)
-            deferred.reject(err)
+            deferred.reject({ errorCode: 3001, detail: "data client error" })
         })
     return deferred.promise;
 
@@ -99,7 +99,7 @@ var mainFunc = function(request) {
         })
         .catch(function(err) {
             console.log("errr ----->", err)
-            let toSend = { code: 4001, message: err }
+            let toSend = { code: 4001, errorCode: err.errorCode, message: err.detail }
             deferred.reject(toSend)
         })
     return deferred.promise;

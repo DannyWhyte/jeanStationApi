@@ -100,8 +100,12 @@ SwaggerExpress.create(config1, function(err, swaggerExpress) {
     app.post(BASE_URL + '/loginUser', sessionHandler, require('./api/controllers/login').login);
     app.post(BASE_URL + '/test', IsAuthenticated, require('./api/controllers/hello_world').getTicketInfo);
     app.post(BASE_URL + '/addProducts', IsAuthenticated, require('./api/controllers/addProducts').addProducts);
-    app.get(BASE_URL + '/productList', IsAuthenticated, require('./api/controllers/productList').productList);
-    app.get(BASE_URL + '/productInfo', IsAuthenticated, require('./api/controllers/productInfo').productInfo);
+    app.post(BASE_URL + '/addToCart', IsAuthenticated, require('./api/controllers/addToCart').addToCart);
+    app.get(BASE_URL + '/cartCounter', IsAuthenticated, require('./api/controllers/cartCounter').cartCounter);
+    //unauthenticated api's start ---------------------------------------------------------------------
+    app.get(BASE_URL + '/productInfo', require('./api/controllers/productInfo').productInfo);
+    app.get(BASE_URL + '/productList', require('./api/controllers/productList').productList);
+    //unauthenticated api's end ---------------------------------------------------------------------
 
     var port = process.env.PORT || 8011;
     var server = app.listen(port);
