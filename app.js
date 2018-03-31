@@ -102,6 +102,7 @@ SwaggerExpress.create(config1, function(err, swaggerExpress) {
     app.post(BASE_URL + '/addProducts', IsAuthenticated, require('./api/controllers/addProducts').addProducts);
     app.post(BASE_URL + '/addToCart', IsAuthenticated, require('./api/controllers/addToCart').addToCart);
     app.get(BASE_URL + '/cartCounter', IsAuthenticated, require('./api/controllers/cartCounter').cartCounter);
+    app.get(BASE_URL + '/getItemInCart', IsAuthenticated, require('./api/controllers/getItemInCart').getItemInCart);
     //unauthenticated api's start ---------------------------------------------------------------------
     app.get(BASE_URL + '/productInfo', require('./api/controllers/productInfo').productInfo);
     app.get(BASE_URL + '/productList', require('./api/controllers/productList').productList);
