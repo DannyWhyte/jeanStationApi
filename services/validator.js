@@ -268,9 +268,47 @@ let addToCartValidator = class validator {
     }
 }
 
+let removeFromCartValidator = class validator {
+    constructor(request) {
+        var deferred = q.defer();
+        var schema1 = {
+            "id": "/removeFromCart",
+            "type": "object",
+            "properties": {
+                "cartId": {
+                    "type": "string",
+                    "required": true,
+                    "minLength": 1,
+                }
+            }
+        };
+        v.addSchema(schema1, '/removeFromCart');
+        var error = _.pluck(v.validate(request, schema1).errors, 'stack');
+        var formated_error = [];
+        // console.log("ssssssssssssssssssssssssssssss", error)
+        _.each(error, function(err) {
+            // console.log('VALIDATE: ', err.replace('instance.', '').replace('].', '] ').replace('data.', ''));
+            var formatedErr = err.split('.')
+            formated_error.push(formatedErr[formatedErr.length - 1]);
+        });
+        if (isNaN(request.cartId)) { formated_error.push("Please provide a number in cartId") }
+        if (formated_error.length > 0) {
+            deferred.reject({
+                "status": "fail",
+                "error": formated_error
+            });
+        } else {
+            deferred.resolve(request);
+        }
+        return deferred.promise;
+    }
+}
+
+
 
 module.exports.loginValidator = loginValidator;
 module.exports.addProductsValidator = addProductsValidator;
 module.exports.productListValidator = productListValidator;
 module.exports.productInfoValidator = productInfoValidator;
 module.exports.addToCartValidator = addToCartValidator;
+module.exports.removeFromCartValidator = removeFromCartValidator;
