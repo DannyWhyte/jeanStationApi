@@ -308,7 +308,7 @@ let createOrderValidator = class validator {
   constructor (request) {
     var deferred = q.defer()
     var schema1 = {
-      'id': '/removeFromCart',
+      'id': '/createOrder',
       'type': 'object',
       'properties': {
         'data': {

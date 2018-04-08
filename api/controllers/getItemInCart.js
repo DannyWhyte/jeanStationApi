@@ -10,7 +10,7 @@ let GetItemClass = class getItem {
         from cart c
         join product p on p.is_active = true and p.id = c.prod_id
         left join image_path i on p.id = i.prod_id and i.position = 1 and i.is_active = true
-        where c.is_active = true and c.user_id = ${input} and is_processed = 0 and is_removed = 0`
+        where c.is_active = true and c.user_id = ${input} and c.is_processed = 0 and c.is_removed = 0`
     // console.log("queryyyyyyyyyyyyy", query)
     dbQuery(query)
       .then(function (dbResponse) {
