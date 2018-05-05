@@ -114,6 +114,16 @@ SwaggerExpress.create(config1, function (err, swaggerExpress) {
     console.log('Unhandled Rejection at:', p, 'reason:', reason)
     // application specific logging, throwing an error, or other logic here
   })
+
+  process.on('uncaughtException', (reason, p) => {
+    console.log('Uncaught Exception at:', p, 'reason:', reason)
+  })
+
+  // two ways of callback while handling error
+  // process.on('uncaughtException', (err) => {
+  //   console.log('whoops! there was an error', err.stack)
+  // })
+
   // ======================== PROCESS.ON END =====================================
 
   module.exports = exports
