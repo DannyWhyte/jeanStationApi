@@ -355,6 +355,52 @@ let createOrderValidator = class validator {
   }
 }
 
+let updateOrderStatusValidator = class validator {
+  constructor (request) {
+    var deferred = q.defer()
+    var schema1 = {
+      'id': '/updateOrderStatus',
+      'type': 'object',
+      'properties': {
+        'data': {
+          'type': 'object',
+          'required': true,
+          'properties': {
+            'orderNo': {
+              'type': 'string',
+              'required': true,
+              'minLength': 1
+            },
+            'newStatus': {
+              'type': 'integer',
+              'minLength': 1,
+              'required': true
+            }
+          }
+        }
+      }
+    }
+    v.addSchema(schema1, '/updateOrderStatus')
+    var error = _.pluck(v.validate(request, schema1).errors, 'stack')
+    var formatedError = []
+    // console.log("ssssssssssssssssssssssssssssss", error)
+    _.each(error, function (err) {
+      // console.log('VALIDATE: ', err.replace('instance.', '').replace('].', '] ').replace('data.', ''));
+      var formatedErr = err.split('.')
+      formatedError.push(formatedErr[formatedErr.length - 1])
+    })
+    if (formatedError.length > 0) {
+      deferred.reject({
+        'status': 'fail',
+        'error': formatedError
+      })
+    } else {
+      deferred.resolve(request)
+    }
+    return deferred.promise
+  }
+}
+
 module.exports.loginValidator = loginValidator
 module.exports.addProductsValidator = addProductsValidator
 module.exports.productListValidator = productListValidator
@@ -362,3 +408,4 @@ module.exports.productInfoValidator = productInfoValidator
 module.exports.AddToCartValidator = addToCartValidator
 module.exports.RemoveFromCartValidator = removeFromCartValidator
 module.exports.CreateOrderValidator = createOrderValidator
+module.exports.UpdateOrderStatusValidator = updateOrderStatusValidator

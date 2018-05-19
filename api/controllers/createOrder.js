@@ -34,20 +34,21 @@ let MarkProcessedClass = class markProcessed {
  * Output success/error of insert query
  */
 let InsertOrdrInTableClass = class insertOrdrInTable {
-  func (input, dbCartData) {
+  func (input, dbCartData, userId) {
     let deferred = q.defer()
     // let query = `update cart set is_removed = 1 where id = ${input.cartId}`
-    let status = 'pending'
+    let status = 1 // pending
     let orderId = ObjectID().toString()
     let address = input.address.split("'").join("''")
     let paymentOption = input.paymentOption
     let orderTotal = 0
     let tax = input.tax
     let cartData = JSON.stringify(dbCartData).split("'").join("''")
+    let userIdendity = userId
     _.each(dbCartData, function (singleData) { /* console.log(orderTotal, '<--order total | data -->', singleData.price) */; orderTotal += singleData.price })
     // console.log('queryyyyyyyyyyyyy', orderTotal)
-    let query = `insert into order_table (status,order_no,address,payment_option,order_total,tax,cart_data) values 
-                 ('${status}','${orderId}','${address}','${paymentOption}',${orderTotal},${tax},'${cartData}')`
+    let query = `insert into order_table (status,order_no,address,payment_option,order_total,tax,cart_data,user_id) values 
+                 ('${status}','${orderId}','${address}','${paymentOption}',${orderTotal},${tax},'${cartData}',${userIdendity})`
     dbQuery(query)
       .then(function (dbResponse) {
         // console.log('dbbbbbbb', dbResponse)
@@ -88,7 +89,7 @@ let MainFunc = class mainFuncclass {
       .then(function (cartData) {
         if (cartData.code === 1005) return cartData
         // console.log('data found in cart')
-        return insertOrdrInTable.func(request.data, cartData.data)
+        return insertOrdrInTable.func(request.data, cartData.data, userId)
       })
       .then(function (insertResponse) {
         if (insertResponse.code === 1005) return insertResponse

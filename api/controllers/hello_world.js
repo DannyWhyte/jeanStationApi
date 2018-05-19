@@ -1,8 +1,6 @@
-var getTicketInfo = function(req, res) {
-    var reqBody = req.body
-    res.status(200).send(reqBody);
+var getTicketInfo = function (req, res) {
+  var reqBody = req.body
+  res.status(200).send(reqBody)
 }
 
-
-
-module.exports.getTicketInfo = getTicketInfo;
+module.exports.getTicketInfo = getTicketInfo
