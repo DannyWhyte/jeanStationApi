@@ -20,7 +20,7 @@ let GetItemClass = class getItem {
           _.each(dbResponse, function (singleRecord) {
             // console.log("aaaaaa", singleRecord)
             let outJson = {
-              // 'id': singleRecord.id,
+              'id': singleRecord.id,
               // 'userId': singleRecord.user_id,
               'selectedSize': singleRecord.selected_size,
               'quantity': singleRecord.quantity,
