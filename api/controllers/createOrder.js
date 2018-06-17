@@ -116,8 +116,8 @@ let MainFunc = class mainFuncclass {
    * output res
    */
 let createOrder = function (req, res) {
-//   let userId = req.session2.currentUser.userDetails.userId
-  let userId = 4
+  let userId = req.session2.currentUser.userDetails.userId
+  // let userId = 4
   let body = req.body
   let mainFunction = new MainFunc(body, userId)
   mainFunction

@@ -1,5 +1,5 @@
 /*
- * Functin to orders for a user.
+ * Functin to get orders for a user.
  * Input userID from session
  * Output total orders
  */
@@ -69,8 +69,8 @@ let MainFunc = class mainFuncclass {
    * output res
    */
 let getOrders = function (req, res) {
-//   let userId = req.session2.currentUser.userDetails.userId
-  let userId = 4
+  let userId = req.session2.currentUser.userDetails.userId
+  // let userId = 4
   let mainFunction = new MainFunc(userId)
   mainFunction
     .then(mainFuncResponse => res.status(200).send(mainFuncResponse))

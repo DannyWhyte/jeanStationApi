@@ -1,6 +1,6 @@
 /*
- * Functin to get items in cart of a user.
- * Input userID from session
+ * Functin to get items present in cart of a user.
+ * Input userID from user details in session
  * Output total items
  */
 let GetItemClass = class getItem {

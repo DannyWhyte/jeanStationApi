@@ -9,10 +9,10 @@ let UpdateClass = class update {
     let query
     if (input.newStatus === 7) {
       query = `update order_table set status = ${input.newStatus} , status_chng_time = now(),delivered_on = now() 
-               where  order_no = '${input.orderNo}'`
+               where  order_no = '${input.orderNo}' and is_active = 1`
     } else {
       query = `update order_table set status = ${input.newStatus} , status_chng_time = now()
-               where  order_no = '${input.orderNo}'`
+               where  order_no = '${input.orderNo}' and is_active = 1`
     }
     // console.log("queryyyyyyyyyyyyy", query)
     dbQuery(query)
